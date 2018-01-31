@@ -65,7 +65,7 @@
     AVSpeechUtterance* utterance = [[AVSpeechUtterance new] initWithString:text];
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:locale];
     // Rate expression adjusted manually for a closer match to other platform.
-    utterance.rate = (AVSpeechUtteranceMinimumSpeechRate * 1.5 + AVSpeechUtteranceDefaultSpeechRate) * rate * rate;
+    utterance.rate = (AVSpeechUtteranceMinimumSpeechRate * 1.5 + AVSpeechUtteranceDefaultSpeechRate) / 2.25 * rate * rate;
     // workaround for https://github.com/vilic/cordova-plugin-tts/issues/21
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
        utterance.rate = utterance.rate * 2;
@@ -76,7 +76,7 @@
 }
 
 - (void)stop:(CDVInvokedUrlCommand*)command {
-    [synthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    [synthesizer pauseSpeakingAtBoundary:AVSpeechBoundaryImmediate];
 }
 - (void)checkLanguage:(CDVInvokedUrlCommand *)command {
     NSArray *voices = [AVSpeechSynthesisVoice speechVoices];
